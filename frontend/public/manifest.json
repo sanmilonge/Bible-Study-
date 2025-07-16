@@ -1,0 +1,75 @@
+{
+    "short_name": "Bible Study",
+    "name": "Bible Study - AI-Powered Mobile App",
+    "description": "A comprehensive Bible study application with AI-powered chatbot, social features, and study tools",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "logo192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "logo512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#3b82f6",
+    "background_color": "#ffffff",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "categories": [
+        "books",
+        "education",
+        "lifestyle",
+        "productivity"
+    ],
+    "lang": "en-US",
+    "dir": "ltr",
+    "prefer_related_applications": false,
+    "shortcuts": [
+        {
+            "name": "Bible Reader",
+            "short_name": "Bible",
+            "description": "Open Bible reading interface",
+            "url": "/bible",
+            "icons": [
+                {
+                    "src": "favicon.ico",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "AI Chat",
+            "short_name": "Chat",
+            "description": "Bible study AI assistant",
+            "url": "/bible",
+            "icons": [
+                {
+                    "src": "favicon.ico",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Notes",
+            "short_name": "Notes",
+            "description": "Study notes and highlights",
+            "url": "/notes",
+            "icons": [
+                {
+                    "src": "favicon.ico",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

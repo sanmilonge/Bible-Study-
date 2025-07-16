@@ -1,0 +1,29 @@
+{
+    "appId": "com.bibleStudy.app",
+    "appName": "Bible Study",
+    "webDir": "build",
+    "server": {
+        "androidScheme": "https"
+    },
+    "android": {
+        "buildOptions": {
+            "signingType": "apksigner"
+        }
+    },
+    "plugins": {
+        "SplashScreen": {
+            "launchShowDuration": 2000,
+            "backgroundColor": "#3b82f6",
+            "showSpinner": true,
+            "spinnerColor": "#ffffff"
+        },
+        "StatusBar": {
+            "style": "default",
+            "backgroundColor": "#3b82f6"
+        },
+        "Keyboard": {
+            "resize": "body",
+            "style": "dark"
+        }
+    }
+}
