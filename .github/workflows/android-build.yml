@@ -1,0 +1,92 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'yarn'
+        cache-dependency-path: frontend/yarn.lock
+        
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: |
+        yarn install --frozen-lockfile
+        
+    - name: Build React app
+      working-directory: ./frontend
+      run: |
+        yarn build
+        
+    - name: Setup Capacitor
+      working-directory: ./frontend
+      run: |
+        npx cap sync android
+        
+    - name: Build Android APK
+      working-directory: ./frontend/android
+      run: |
+        chmod +x ./gradlew
+        ./gradlew assembleDebug
+        
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: bible-study-app-debug
+        path: frontend/android/app/build/outputs/apk/debug/app-debug.apk
+        
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ github.run_number }}
+        name: Bible Study App v${{ github.run_number }}
+        body: |
+          ## Bible Study Mobile App
+          
+          📱 **Android APK Ready for Installation**
+          
+          ### Features:
+          - 📖 Complete Bible reading experience
+          - 🤖 ChatGPT-powered Bible study assistant  
+          - 👥 Social features and friend accountability
+          - ⏰ Smart reminders with friend monitoring
+          - 📝 Advanced note-taking and highlighting
+          
+          ### Installation:
+          1. Download `bible-study-app.apk` below
+          2. Enable "Unknown Sources" in Android settings
+          3. Install the APK file
+          
+          ### Requirements:
+          - Android 7.0+ (API level 24)
+          - Internet connection for AI features
+          
+        files: |
+          frontend/android/app/build/outputs/apk/debug/app-debug.apk
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
