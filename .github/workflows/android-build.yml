@@ -20,7 +20,7 @@ jobs:
       with:
         node-version: '18'
         cache: 'yarn'
-        cache-dependency-path: frontend/yarn.lock
+        cache-dependency-path: 'frontend/package.json'
         
     - name: Setup Java
       uses: actions/setup-java@v4
@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       working-directory: ./frontend
       run: |
-        yarn install --frozen-lockfile
+        yarn install
         
     - name: Build React app
       working-directory: ./frontend
@@ -77,7 +77,7 @@ jobs:
           - 📝 Advanced note-taking and highlighting
           
           ### Installation:
-          1. Download `bible-study-app.apk` below
+          1. Download `app-debug.apk` below
           2. Enable "Unknown Sources" in Android settings
           3. Install the APK file
           
