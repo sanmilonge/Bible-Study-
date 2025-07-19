@@ -19,8 +19,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'yarn'
-        cache-dependency-path: 'frontend/package.json'
         
     - name: Setup Java
       uses: actions/setup-java@v4
@@ -31,26 +29,24 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
-    - name: Install dependencies
+    - name: Install dependencies and build
       working-directory: ./frontend
       run: |
-        yarn install
-        
-    - name: Build React app
-      working-directory: ./frontend
-      run: |
-        yarn build
+        npm install --legacy-peer-deps
+        CI=false npm run build
         
     - name: Setup Capacitor
       working-directory: ./frontend
       run: |
         npx cap sync android
         
+    - name: Make gradlew executable
+      working-directory: ./frontend/android
+      run: chmod +x ./gradlew
+        
     - name: Build Android APK
       working-directory: ./frontend/android
-      run: |
-        chmod +x ./gradlew
-        ./gradlew assembleDebug
+      run: ./gradlew assembleDebug
         
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
@@ -65,25 +61,23 @@ jobs:
         tag_name: v${{ github.run_number }}
         name: Bible Study App v${{ github.run_number }}
         body: |
-          ## Bible Study Mobile App
+          ## 📱 Bible Study Mobile App - Ready to Install!
           
-          📱 **Android APK Ready for Installation**
-          
-          ### Features:
-          - 📖 Complete Bible reading experience
+          ### ✨ Features:
+          - 📖 Complete Bible reading with notes & highlights
           - 🤖 ChatGPT-powered Bible study assistant  
           - 👥 Social features and friend accountability
           - ⏰ Smart reminders with friend monitoring
-          - 📝 Advanced note-taking and highlighting
+          - 💾 Cloud data storage (MongoDB)
           
-          ### Installation:
-          1. Download `app-debug.apk` below
+          ### 📥 Installation:
+          1. Download the APK file below
           2. Enable "Unknown Sources" in Android settings
-          3. Install the APK file
+          3. Install and enjoy your Bible study app!
           
-          ### Requirements:
+          ### 📋 Requirements:
           - Android 7.0+ (API level 24)
-          - Internet connection for AI features
+          - Internet connection for full features
           
         files: |
           frontend/android/app/build/outputs/apk/debug/app-debug.apk
